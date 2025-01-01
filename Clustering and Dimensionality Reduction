@@ -1,0 +1,6 @@
+# Clustering
+seurat_obj <- FindNeighbors(seurat_obj, dims = 1:10)
+seurat_obj <- FindClusters(seurat_obj, resolution = 0.5)
+
+# Visualize the clusters
+DimPlot(seurat_obj, reduction = "tsne", group.by = "seurat_clusters")
