@@ -1,0 +1,40 @@
+# Load necessary libraries
+library(randomForest)
+library(caret)
+library(dplyr)
+
+# Load the preprocessed gene expression data (assume it's in 'normalized_gene_expression.csv')
+data <- read.csv('normalized_gene_expression.csv')
+
+# Features (gene expression) and target (labels for subtypes or cell types)
+# Adjust this based on your data structure
+X <- data %>% select(-label)  # Drop the label column
+y <- data$label  # Target variable: cancer subtype or cell type
+
+# Split the data into training and testing sets (70% train, 30% test)
+set.seed(42)  # Set seed for reproducibility
+trainIndex <- createDataPartition(y, p = 0.7, list = FALSE)
+trainData <- X[trainIndex, ]
+trainLabels <- y[trainIndex]
+testData <- X[-trainIndex, ]
+testLabels <- y[-trainIndex]
+
+# Train a Random Forest model
+rf_model <- randomForest(x = trainData, y = trainLabels, ntree = 500)
+
+# Print the model summary
+print(rf_model)
+
+# Predict on the test set
+predictions <- predict(rf_model, testData)
+
+# Evaluate the model's accuracy
+confMatrix <- confusionMatrix(predictions, testLabels)
+print(confMatrix)
+
+# Print accuracy
+accuracy <- sum(predictions == testLabels) / length(testLabels)
+cat("Accuracy: ", accuracy, "\n")
+
+# Optionally, save the model for future use
+saveRDS(rf_model, file = "breast_cancer_rf_model.rds")
