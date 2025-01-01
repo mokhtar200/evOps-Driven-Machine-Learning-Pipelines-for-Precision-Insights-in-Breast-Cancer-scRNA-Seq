@@ -1,0 +1,31 @@
+#Preprocessing and Quality Control in R
+# Load necessary libraries
+library(Seurat)
+library(dplyr)
+
+# Load the scRNA-Seq data (assume data is in the 'SRP123456' directory)
+sc_data <- Read10X(data.dir = "SRP123456/")
+
+# Create Seurat object
+seurat_obj <- CreateSeuratObject(counts = sc_data)
+
+# Perform quality control (e.g., filter out cells with too few or too many features)
+seurat_obj <- subset(seurat_obj, subset = nFeature_RNA > 200 & nFeature_RNA < 2500)
+
+# Normalize the data
+seurat_obj <- NormalizeData(seurat_obj)
+
+# Identify variable features
+seurat_obj <- FindVariableFeatures(seurat_obj)
+
+# Scale the data
+seurat_obj <- ScaleData(seurat_obj)
+
+# Run PCA for dimensionality reduction
+seurat_obj <- RunPCA(seurat_obj, npcs = 30)
+
+# Run t-SNE for visualization
+seurat_obj <- RunTSNE(seurat_obj, dims = 1:10)
+
+# Visualize the t-SNE plot to observe cell clustering
+DimPlot(seurat_obj, reduction = "tsne")
