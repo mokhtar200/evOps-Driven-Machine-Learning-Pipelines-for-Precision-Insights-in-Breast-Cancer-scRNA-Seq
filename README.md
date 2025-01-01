@@ -12,8 +12,7 @@ Integration with clinical data for deeper insights
 2. Pre-requisites:
 Make sure you have the following installed:
 
-R (and key packages like Seurat, ggplot2, dplyr, tidyverse)
-Python (for machine learning scripts)
+R (and key packages like Seurat, ggplot2, dplyr, tidyverse) (for machine learning scripts)
 Docker (for containerization)
 Git (for version control)
 CI/CD tool (like GitHub Actions)
