@@ -1,0 +1,10 @@
+ # Download the scRNA-Seq Data from NCBI SRA
+
+# Install SRA toolkit
+conda install -c bioconda sra-tools
+
+# Download the SRA dataset
+prefetch SRP123456
+
+# Convert the SRA file to FASTQ format
+fastq-dump --split-files --gzip SRP123456
