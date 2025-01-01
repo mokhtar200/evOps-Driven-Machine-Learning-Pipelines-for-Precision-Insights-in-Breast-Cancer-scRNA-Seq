@@ -1,0 +1,5 @@
+# Perform differential expression between clusters
+DEG <- FindMarkers(seurat_obj, ident.1 = 0, ident.2 = 1)
+
+# Output differential gene expression results
+write.csv(DEG, file = "differential_gene_expression.csv")
